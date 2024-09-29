@@ -1,5 +1,5 @@
 // angular import
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // project import
@@ -13,6 +13,8 @@ import { SalesReportChartComponent } from './sales-report-chart/sales-report-cha
 // icons
 import { IconService } from '@ant-design/icons-angular';
 import { FallOutline, GiftOutline, MessageOutline, RiseOutline, SettingOutline } from '@ant-design/icons-angular/icons';
+//map
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-default',
@@ -28,10 +30,19 @@ import { FallOutline, GiftOutline, MessageOutline, RiseOutline, SettingOutline }
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DefaultComponent {
+export class DefaultComponent implements AfterViewInit {
+  private map!: L.Map;
+  markers: L.Marker[] = [
+    L.marker([32.9539, 54.9106])
+  ];
   // constructor
   constructor(private iconService: IconService) {
     this.iconService.addIcon(...[RiseOutline, FallOutline, SettingOutline, GiftOutline, MessageOutline]);
+  }
+  ngAfterViewInit(): void {
+    this.initializeMap();
+    this.addMarkers();
+    this.centerMap();
   }
 
   recentOrder = tableData;
@@ -79,30 +90,25 @@ export class DefaultComponent {
     }
   ];
 
-  transaction = [
-    {
-      background: 'text-success bg-light-success',
-      icon: 'gift',
-      title: 'Order #002434',
-      time: 'Today, 2:00 AM',
-      amount: '+ $1,430',
-      percentage: '78%'
-    },
-    {
-      background: 'text-primary bg-light-primary',
-      icon: 'message',
-      title: 'Order #984947',
-      time: '5 August, 1:45 PM',
-      amount: '- $302',
-      percentage: '8%'
-    },
-    {
-      background: 'text-danger bg-light-danger',
-      icon: 'setting',
-      title: 'Order #988784',
-      time: '7 hours ago',
-      amount: '- $682',
-      percentage: '16%'
-    }
-  ];
+  private initializeMap() {
+    const baseMapURl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+    this.map = L.map('map',{
+      center: [32.505, 54],
+      zoom: 7});
+    L.tileLayer(baseMapURl).addTo(this.map);
+  }
+
+  private addMarkers() {
+    // Add your markers to the map
+    this.markers.forEach(marker => marker.addTo(this.map));
+  }
+
+  private centerMap() {
+    // Create a LatLngBounds object to encompass all the marker locations
+  //  const bounds = L.latLngBounds(this.markers.map(marker => marker.getLatLng()));
+    
+    // Fit the map view to the bounds
+    //this.map.fitBounds(bounds);
+  }
+
 }
