@@ -7,10 +7,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './theme/shared/shared.module';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, AppRoutingModule, SharedModule, BrowserAnimationsModule],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [provideHttpClient(withInterceptorsFromDi()), provideAnimationsAsync()]
 })
 export class AppModule {}

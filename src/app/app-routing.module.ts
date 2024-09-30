@@ -21,6 +21,10 @@ const routes: Routes = [
         loadComponent: () => import('./demo/default/dashboard/dashboard.component').then((c) => c.DefaultComponent)
       },
       {
+        path: 'setting/groups',
+        loadComponent: () => import('./setting/groups/groups.component')
+      },
+      {
         path: 'typography',
         loadComponent: () => import('./demo/ui-component/typography/typography.component')
       },

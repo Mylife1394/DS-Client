@@ -37,3 +37,6 @@ File: style.css
 
 @import 'scss/themes/preset-style.scss';
 @import 'node_modules/leaflet/dist/leaflet.css';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

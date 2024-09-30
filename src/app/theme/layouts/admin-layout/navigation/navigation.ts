@@ -20,6 +20,32 @@ export interface NavigationItem {
 
 export const NavigationItems: NavigationItem[] = [
   {
+    id: 'setting',
+    title: 'Setting',
+    type: 'group',
+    icon: 'setting-outlined',
+    children: [
+      {
+        id: 'users',
+        title: 'Users',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/setting/users',
+        icon: 'user',
+        breadcrumbs: false
+      },
+      {
+        id: 'groups',
+        title: 'Groups',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/setting/groups',
+        icon: 'group',
+        breadcrumbs: false
+      }
+    ]
+  },
+  {
     id: 'dashboard',
     title: 'Dashboard',
     type: 'group',
