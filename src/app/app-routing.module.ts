@@ -25,6 +25,10 @@ const routes: Routes = [
         loadComponent: () => import('./setting/groups/groups.component')
       },
       {
+        path: 'setting/users',
+        loadComponent: () => import('./setting/users/users.component')
+      },
+      {
         path: 'typography',
         loadComponent: () => import('./demo/ui-component/typography/typography.component')
       },

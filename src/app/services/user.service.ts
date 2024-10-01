@@ -33,5 +33,5 @@ export interface User {
   username: string,
   password: string,
   group_id: number,
-  group : Group
+  group : Group | undefined
 }

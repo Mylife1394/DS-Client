@@ -1,1 +1,91 @@
-<p>users works!</p>
+<div class="row">
+    <div class="col-sm-12">
+        <app-card cardTitle="Groups" blockClass="pc-component">
+            <form class="was-validated" [formGroup]="userForm" (submit)="save(userForm)" (reset)="cancel()">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label class="form-label" for="name">Name*</label>
+                            <input type="text" class="form-control" id="name" placeholder="Name" required
+                                formControlName="name" />
+                            <div class="invalid-feedback">Please enter a name in the Name field.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label class="form-label" for="username">Username*</label>
+                            <input type="text" class="form-control" id="username" placeholder="Username" required
+                                formControlName="username" />
+                            <div class="invalid-feedback">Please enter a username in the Username field.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label class="form-label" for="password">Password*</label>
+                            <input type="password" class="form-control" id="password" placeholder="Password" required
+                                formControlName="password" />
+                            <div class="invalid-feedback">Please enter a password in the Password field.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+
+                        <div class="form-group mb-3">
+                            <label class="form-label" for="group_id">Group*</label>
+                            <select class="form-select" required aria-label="select example" formControlName="group_id">
+                                <option value="">Select a group...</option>
+                                @for(group of groups; track group) {
+                                <option [value]=group.id>{{group.name}}</option>
+                                }
+                            </select>
+                            <div class="invalid-feedback">Please select a group from the Group field.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <div class="btn-seperator"></div>
+                        <button type="reset" class="btn btn-info">Cancel</button>
+                    </div>
+                </div>
+            </form>
+            <table mat-table [dataSource]="dataSource" matSort dir="rtl">
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> id </th>
+                    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+
+                </ng-container>
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+                <ng-container matColumnDef="username">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Username </th>
+                    <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+                </ng-container>
+                <ng-container matColumnDef="group">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Group </th>
+                    <td mat-cell *matCellDef="let element"> {{element.group.name}} </td>
+                </ng-container>
+                <ng-container matColumnDef="action">
+                    <th class="action-th" mat-header-cell *matHeaderCellDef> Action </th>
+                    <td class="action-td" mat-cell *matCellDef="let element">
+                        <div class="d-flex">
+                            <a (click)="editGroup(element)" class="btn"><i antIcon theme="outline" type="edit"></i></a>
+                            <a (click)="deleteGroup(element.id)" class="btn "><i antIcon theme="outline"
+                                    type="delete"></i></a>
+                        </div>
+                    </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" [dir]="'rtl'" showFirstLastButtons
+                aria-label="Select page of periodic elements">
+            </mat-paginator>
+        </app-card>
+    </div>
+</div>

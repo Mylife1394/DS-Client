@@ -53,11 +53,11 @@ export const NavigationItems: NavigationItem[] = [
     children: [
       {
         id: 'default',
-        title: 'Default',
+        title: 'Map',
         type: 'item',
         classes: 'nav-item',
         url: '/dashboard/default',
-        icon: 'dashboard',
+        icon: 'map',
         breadcrumbs: false
       }
     ]
