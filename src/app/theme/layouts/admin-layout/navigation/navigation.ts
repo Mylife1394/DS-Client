@@ -42,6 +42,15 @@ export const NavigationItems: NavigationItem[] = [
         url: '/setting/groups',
         icon: 'group',
         breadcrumbs: false
+      },
+      {
+        id: 'groups',
+        title: 'Sensor Type',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/setting/sensorTypes',
+        icon: 'group',
+        breadcrumbs: false
       }
     ]
   },

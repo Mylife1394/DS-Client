@@ -18,7 +18,7 @@ const routes: Routes = [
       },
       {
         path: 'dashboard/default',
-        loadComponent: () => import('./demo/default/dashboard/dashboard.component').then((c) => c.DefaultComponent)
+        loadComponent: () => import('./pages/map/map.component').then((c) => c.default)
       },
       {
         path: 'setting/groups',
@@ -27,6 +27,10 @@ const routes: Routes = [
       {
         path: 'setting/users',
         loadComponent: () => import('./setting/users/users.component')
+      },
+      {
+        path: 'setting/sensorTypes',
+        loadComponent: () => import('./setting/sensor-type/sensor-type.component')
       },
       {
         path: 'typography',

@@ -1,0 +1,31 @@
+.action-td {
+    width: 100px;
+}
+
+.action-th {
+    text-align: center !important;
+}
+
+.btn-seperator {
+    width: 5px;
+    display: inline-block;
+}
+
+.color-field_cell {
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.icon-frame {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    margin-left: 5px !important;
+}
+
+.table-container {
+    overflow-x: auto;
+    overflow-y: hidden;
+}

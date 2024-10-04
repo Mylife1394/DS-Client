@@ -92,7 +92,8 @@ export default class UsersComponent implements AfterViewInit {
   }
 
   cancel() {
-    this.userForm.reset
+    this.userForm.reset();
+    this.userForm.value.id = 0;
   }
   save(form: FormGroup) {
     console.log('Valid?', form.valid); // true or false
@@ -103,7 +104,7 @@ export default class UsersComponent implements AfterViewInit {
       username: form.value.username,
       password: form.value.password,
       group_id: Number(form.value.group_id),
-      group: foundGroup
+      group: undefined
     }
     if (form.value.id > 0) {
       this.userService.put(form.value.id, user).subscribe(() => {
@@ -113,16 +114,19 @@ export default class UsersComponent implements AfterViewInit {
         foundUser!.username = user.username;
         foundUser!.password = user.password;
         foundUser!.group_id = user.group_id;
-        foundUser!.group = user.group;
+        foundUser!.group = foundGroup;
         this.dataSource!._updateChangeSubscription();
       });
     }
     else {
       this.userService.post(user).subscribe((insertdata: User) => {
+        insertdata.group = foundGroup;
         this.dataSource!.data.push(insertdata);
         this.dataSource!._updateChangeSubscription();
       });
     }
+    this.userForm.reset();
+    this.userForm.value.id = 0;
   }
 
   deleteConfirm() {

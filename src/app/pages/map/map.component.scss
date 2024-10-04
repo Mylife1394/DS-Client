@@ -1,0 +1,68 @@
+.card {
+    .card-body.dashboard-card {
+        padding: 18px;
+        padding-bottom: 20px;
+    }
+}
+
+.user-group {
+    img {
+        position: relative;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        z-index: 2;
+        transition: all 0.1s ease-in-out;
+        border: 2px solid var(--bs-white);
+
+        +img {
+            margin-left: -14px;
+        }
+
+        &:hover {
+            z-index: 5;
+        }
+    }
+}
+
+.badge-circle {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+#map {
+    height: 100vh;
+}
+
+.map-container {
+    border: 1px solid #63aeee;
+    border-radius: 4px;
+    box-shadow: 2px 2px 2px #dfe9fb;
+}
+
+.color-field_cell {
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.icon-frame {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    margin-left: 5px !important;
+}
+
+.sensor-info {
+    display: inline;
+}
+
+.sensor-header {
+    padding: 0 5px 0 5px;
+    border-radius: 4px;
+    height: 2px;
+    width: 100%;
+}
