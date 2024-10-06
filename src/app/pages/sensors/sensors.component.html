@@ -21,16 +21,22 @@
                     <div class="col-md-6">
                         <div class="form-group mb-3">
                             <label class="form-label" for="latitude">Latitude*</label>
-                            <input type="number" class="form-control" id="latitude" placeholder="Latitude" required
-                                formControlName="latitude" OnlyNumber="true" />
+                            <input type="number" class="form-control" id="latitude" placeholder="Latitude"  required
+                                formControlName="latitude" step="0.01" OnlyNumber="true" />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group mb-3">
                             <label class="form-label" for="longitude">Longitude*</label>
                             <input type="number" class="form-control" id="longitude" placeholder="Longitude" required
-                                formControlName="longitude" OnlyNumber="true" />
+                                formControlName="longitude" step="0.01" OnlyNumber="true"  />
                         </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="selectbyMouse" formControlName="selectbyMouse"/>
+                            <label class="form-check-label" for="selectbyMouse">Select by mouse</label>
+                          </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group mb-3">
@@ -56,7 +62,7 @@
                 </div>
             </form>
             <div class="table-container">
-                <table mat-table [dataSource]="dataSource" matSort dir="rtl">
+                <table mat-table [dataSource]="dataSource" matSort>
                     <!-- Name Column -->
                     <ng-container matColumnDef="id">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> id </th>

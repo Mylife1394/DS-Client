@@ -23,12 +23,13 @@ export class OnlyNumberDirective {
         // Allow: Ctrl+X
         (e.keyCode === 88 && (e.ctrlKey || e.metaKey)) ||
         // Allow: home, end, left, right
-        (e.keyCode >= 35 && e.keyCode <= 39)) {
+        (e.keyCode >= 35 && e.keyCode <= 39) ||
+        (e.keyCode >= 0x002e)) {
         // let it happen, don't do anything
         return;
       }
       if ((e.keyCode === 190) || (e.keyCode === 110)) {
-        let element:any = e.target;
+        let element: any = e.target;
         element.nextElementSibling.focus();
         e.preventDefault();
       }

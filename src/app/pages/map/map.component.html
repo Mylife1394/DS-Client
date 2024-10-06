@@ -1,29 +1,33 @@
 <div class="row">
-    @for (sensorType of sensorTypes; track sensorType) {
-    <div class="col-md-6 col-xl-3">
-        <app-card [showHeader]="false" blockClass="dashboard-card">
-            <h6 class="mb-2 f-w-400 text-muted ">{{ sensorType.name }}<div class="sensor-header"
-                    [ngStyle]="{'background-color':sensorType.color}"></div>
-            </h6>
-            <h4 class="mb-3">
-                <span>
-                    <img [src]="sensorType.iconBase64" class="icon-frame" *ngIf="sensorType.iconBase64!==''" />
-                    <p class="mb-0 text-muted text-sm sensor-info">
-                        Number of this sensor on battlefield :
-                        <span class="{{ sensorType.color }}">{{ 5 }}</span>
-                    </p>
-                </span>
-            </h4>
-        </app-card>
+    <div class="col-md-12 col-xl-8">
+        <div class="row">
+            @for (sensorType of sensorTypes; track sensorType) {
+            <div class="col-md-6 col-xl-3 " style="display: inline-block;">
+                <app-card [showHeader]="false" blockClass="dashboard-card">
+                    <h6 class="mb-2 f-w-400 text-muted ">{{ sensorType.name }}<div class="sensor-header"
+                            [ngStyle]="{'background-color':sensorType.color}"></div>
+                    </h6>
+                    <h4 class="mb-3">
+                        <span>
+                            <img [src]="sensorType.iconBase64" class="icon-frame" *ngIf="sensorType.iconBase64!==''" />
+                            <p class="mb-0 text-muted text-sm sensor-info">
+                                Number of this sensor on battlefield :
+                                <span class="{{ sensorType.color }}">{{ 5 }}</span>
+                            </p>
+                        </span>
+                    </h4>
+                </app-card>
+            </div>
+            }
+        </div>
     </div>
-    }
     <div class="col-md-12 col-xl-8">
         <div class="map-container">
             <div id="map"></div>
         </div>
     </div>
     <div class="col-md-12 col-xl-4">
-        <app-sensors [Map]="map!"></app-sensors>
+        <app-sensors [Map]="map!" [MarkerGroup]="markergroup"></app-sensors>
     </div>
 
 </div>
