@@ -6,11 +6,12 @@ import { RouterModule } from '@angular/router';
 // Project import
 import { NavigationItem } from '../../navigation';
 import { SharedModule } from 'src/app/theme/shared/shared.module';
+import { TranslatePipe } from 'src/app/pipes/translate.pipe';
 
 @Component({
   selector: 'app-nav-item',
   standalone: true,
-  imports: [CommonModule, SharedModule, RouterModule],
+  imports: [CommonModule, SharedModule, RouterModule,TranslatePipe],
   templateUrl: './nav-item.component.html',
   styleUrls: ['./nav-item.component.scss']
 })

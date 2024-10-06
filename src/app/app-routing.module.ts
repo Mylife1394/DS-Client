@@ -33,8 +33,8 @@ const routes: Routes = [
         loadComponent: () => import('./setting/sensor-type/sensor-type.component')
       },
       {
-        path: 'typography',
-        loadComponent: () => import('./demo/ui-component/typography/typography.component')
+        path: 'setting/localizationString',
+        loadComponent: () => import('./setting/localization-string/localization-string.component')
       },
       {
         path: 'color',

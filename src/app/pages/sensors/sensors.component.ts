@@ -34,11 +34,12 @@ import { CardComponent } from 'src/app/theme/shared/components/card/card.compone
 import { SharedModule } from 'src/app/theme/shared/shared.module';
 //map
 import * as L from 'leaflet';
+import { TranslatePipe } from "../../pipes/translate.pipe";
 
 @Component({
   selector: 'app-sensors',
   standalone: true,
-  imports: [SharedModule, CardComponent, ReactiveFormsModule, MatTableModule, MatPaginatorModule, NgFor, MatSortModule, NgStyle, OnlyNumberDirective],
+  imports: [SharedModule, CardComponent, ReactiveFormsModule, MatTableModule, MatPaginatorModule, NgFor, MatSortModule, NgStyle, OnlyNumberDirective, TranslatePipe],
   templateUrl: './sensors.component.html',
   styleUrl: './sensors.component.scss'
 })

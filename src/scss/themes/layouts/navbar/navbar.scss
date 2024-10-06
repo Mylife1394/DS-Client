@@ -4,8 +4,6 @@
   min-height: $header-height;
   border-bottom: 1px solid rgb(240, 240, 240);
   position: fixed;
-  left: $sidebar-width;
-  right: 0;
   z-index: 1025;
   display: flex;
 
@@ -384,7 +382,14 @@
     }
   }
 }
-
+.pc-header:dir(ltr){
+  left: $sidebar-width;
+  right: 0;
+}
+.pc-header:dir(rtl){
+  right: $sidebar-width;
+  left: 0;
+}
 @keyframes anim-rotate {
   0% {
     transform: rotate(0);

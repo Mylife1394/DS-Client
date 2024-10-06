@@ -11,7 +11,7 @@
                         <span>
                             <img [src]="sensorType.iconBase64" class="icon-frame" *ngIf="sensorType.iconBase64!==''" />
                             <p class="mb-0 text-muted text-sm sensor-info">
-                                Number of this sensor on battlefield :
+                                {{"count"|translate}} :
                                 <span class="{{ sensorType.color }}">{{ 5 }}</span>
                             </p>
                         </span>

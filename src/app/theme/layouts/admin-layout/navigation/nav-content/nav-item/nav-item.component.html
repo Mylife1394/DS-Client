@@ -7,9 +7,9 @@
         </span>
       }
       @if (item.icon) {
-        <span class="coded-mtext">{{ item.title }}</span>
+        <span class="coded-mtext">{{ item.title|translate }}</span>
       } @else {
-        {{ item.title }}
+        {{ item.title|translate }}
       }
     </a>
   </li>
@@ -23,9 +23,9 @@
         </span>
       }
       @if (item.icon) {
-        <span class="coded-mtext">{{ item.title }}</span>
+        <span class="coded-mtext">{{ item.title|translate }}</span>
       } @else {
-        {{ item.title }}
+        {{ item.title|translate }}
       }
     </a>
   </li>

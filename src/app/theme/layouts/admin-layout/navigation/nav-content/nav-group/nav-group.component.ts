@@ -7,11 +7,12 @@ import { NavigationItem } from '../../navigation';
 import { SharedModule } from 'src/app/theme/shared/shared.module';
 import { NavCollapseComponent } from '../nav-collapse/nav-collapse.component';
 import { NavItemComponent } from '../nav-item/nav-item.component';
+import { TranslatePipe } from "../../../../../../pipes/translate.pipe";
 
 @Component({
   selector: 'app-nav-group',
   standalone: true,
-  imports: [CommonModule, SharedModule, NavCollapseComponent, NavItemComponent],
+  imports: [CommonModule, SharedModule, NavCollapseComponent, NavItemComponent, TranslatePipe],
   templateUrl: './nav-group.component.html',
   styleUrls: ['./nav-group.component.scss']
 })

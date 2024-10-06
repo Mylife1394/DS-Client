@@ -9,11 +9,12 @@ import * as L from 'leaflet';
 import { SensorType, SensorTypeService } from 'src/app/services/sensor-type.service';
 import { SensorsComponent } from "../sensors/sensors.component";
 import { Sensor, SensorService } from 'src/app/services/sensor.service';
+import { TranslatePipe } from 'src/app/pipes/translate.pipe';
 
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [CommonModule, SharedModule, SensorsComponent],
+  imports: [CommonModule, SharedModule, SensorsComponent,TranslatePipe],
   templateUrl: './map.component.html',
   styleUrl: './map.component.scss'
 })
@@ -56,7 +57,6 @@ export default class MapComponent implements AfterViewInit ,OnInit{
   private loadSensors() {
     this.sensorService.get().subscribe((sensors: Sensor[]) => {
       sensors.forEach(sensor => {
-        
         this.addMarkers(sensor);
       });
     })
