@@ -1,36 +1,36 @@
 <div class="row">
     <div class="col-sm-12">
-        <app-card cardTitle="Sensor Type" blockClass="pc-component">
+        <app-card cardTitle="{{'SensorType'|translate}}" blockClass="pc-component">
             <form class="was-validated" [formGroup]="sensorTypeForm" (submit)="save(sensorTypeForm)" (reset)="cancel()">
                 <input type="hidden" formControlName="id" value="0">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                            <label class="form-label" for="name">Name*</label>
-                            <input type="text" class="form-control" id="name" placeholder="Name" required
+                            <label class="form-label" for="name">{{'Name'|translate}}*</label>
+                            <input type="text" class="form-control" id="name" placeholder="{{'Name'|translate}}" required
                                 formControlName="name" />
-                            <div class="invalid-feedback">Please enter a name in the Name field.</div>
+                            <div class="invalid-feedback">{{'reqierd-validation'|translate}}</div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                            <label class="form-label" for="range">Range*</label>
-                            <input type="number" class="form-control" id="range" placeholder="Range" required
+                            <label class="form-label" for="range">{{'Range'|translate}}*</label>
+                            <input type="number" class="form-control" id="range" placeholder="{{'Range'|translate}}" required
                                 formControlName="range" OnlyNumber="true"/>
-                            <div class="invalid-feedback">Please enter a range in the Range field.</div>
+                            <div class="invalid-feedback">{{'reqierd-validation'|translate}}</div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                            <label class="form-label" for="color">Color*</label>
-                            <input type="color" class="form-control color-field" id="color" placeholder="Color" required
+                            <label class="form-label" for="color">{{'Color'|translate}}*</label>
+                            <input type="color" class="form-control color-field" id="color" placeholder="{{'Color'|translate}}" required
                                 formControlName="color" />
-                            <div class="invalid-feedback">Please enter a color in the Color picker field.</div>
+                            <div class="invalid-feedback">{{'reqierd-validation'|translate}}</div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                            <label class="form-label" for="iconFile">Icon</label>
+                            <label class="form-label" for="iconFile">{{'Icon'|translate}}</label>
                             <div class="input-group">
                                 <input type="file" class="form-control" id="iconFile"
                                     aria-describedby="inputGroupFileAddon03" aria-label="Upload"
@@ -40,9 +40,9 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-primary">{{'Save'|translate}}</button>
                         <div class="btn-seperator"></div>
-                        <button type="reset" class="btn btn-secondary">Cancel</button>
+                        <button type="reset" class="btn btn-secondary">{{'Cancel'|translate}}</button>
                     </div>
                 </div>
             </form>
@@ -55,24 +55,24 @@
 
                 </ng-container>
                 <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Name'|translate}} </th>
                     <td mat-cell *matCellDef="let element"> {{element.name}} </td>
                 </ng-container>
                 <ng-container matColumnDef="range">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Range </th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Range'|translate}} </th>
                     <td mat-cell *matCellDef="let element"> {{element.range}} </td>
                 </ng-container>
                 <ng-container matColumnDef="color">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Color </th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Color'|translate}} </th>
                     <td mat-cell *matCellDef="let element"><span class="color-field_cell"
                             [ngStyle]="{'background-color':element.color}"></span></td>
                 </ng-container>
                 <ng-container matColumnDef="icon">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Icon </th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Icon'|translate}} </th>
                     <td mat-cell *matCellDef="let element"> <img class="icon-frame" [src]="element.iconBase64" *ngIf="element.iconBase64!==''" /> </td>
                 </ng-container>
                 <ng-container matColumnDef="action">
-                    <th class="action-th" mat-header-cell *matHeaderCellDef> Action </th>
+                    <th class="action-th" mat-header-cell *matHeaderCellDef> {{'Action'|translate}} </th>
                     <td class="action-td" mat-cell *matCellDef="let element">
                         <div class="d-flex">
                             <a (click)="editGroup(element)" class="btn"><i antIcon theme="outline" type="edit"></i></a>

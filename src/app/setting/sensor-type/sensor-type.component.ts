@@ -31,11 +31,13 @@ import { OnlyNumberDirective } from 'src/app/directives/only-number.directive';
 import { SensorType, SensorTypeService } from 'src/app/services/sensor-type.service';
 import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
 import { SharedModule } from 'src/app/theme/shared/shared.module';
+import { TranslatePipe } from "../../pipes/translate.pipe";
+import { PaginatorLocalizeService } from 'src/app/services/paginator-localize.service';
 
 @Component({
   selector: 'app-sensor-type',
   standalone: true,
-  imports: [SharedModule, CardComponent, ReactiveFormsModule, MatTableModule, MatPaginatorModule, NgFor, MatSortModule,NgStyle,OnlyNumberDirective],
+  imports: [SharedModule, CardComponent, ReactiveFormsModule, MatTableModule, MatPaginatorModule, NgFor, MatSortModule, NgStyle, OnlyNumberDirective, TranslatePipe],
   templateUrl: './sensor-type.component.html',
   styleUrl: './sensor-type.component.scss'
 })
@@ -50,7 +52,7 @@ export default class SensorTypeComponent implements AfterViewInit{
   public sensorTypeForm: FormGroup;
   public preview = "";
 
-  constructor(public dialog: MatDialog, private formBuilder: FormBuilder, private sensorTypeService: SensorTypeService, private iconService: IconService) {
+  constructor(public dialog: MatDialog, private formBuilder: FormBuilder,private paginatorLocalizeServiceService:PaginatorLocalizeService, private sensorTypeService: SensorTypeService, private iconService: IconService) {
     this.sensorTypeForm = this.formBuilder.group({
       id: [0],
       name: ['', Validators.required],
@@ -86,7 +88,7 @@ export default class SensorTypeComponent implements AfterViewInit{
     this.sensorTypeService.get().subscribe((data: SensorType[]) => {
       this.dataSource = new MatTableDataSource<SensorType>(data);
       this.dataSource.sort = this.sort;
-      // this.paginatorLocalizeServiceService.localize(this.paginator);
+      this.paginatorLocalizeServiceService.localize(this.paginator);
       this.dataSource.paginator = this.paginator;
     });
   }

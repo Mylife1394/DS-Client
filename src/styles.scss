@@ -38,6 +38,80 @@ File: style.css
 @import 'scss/themes/preset-style.scss';
 @import 'node_modules/leaflet/dist/leaflet.css';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+    height: 100%;
+    font-family: Dana !important;
+}
 
+body {
+    margin: 0;
+    //font-family: Dana, "Helvetica Neue", sans-serif ;
+}
+
+.btn {
+    font-family: "Dana" !important;
+}
+
+.mat-mdc-form-field-input-control.mat-mdc-form-field-input-control,
+.mdc-text-field--outlined,
+.mdc-floating-label,
+.mat-mdc-dialog-container,
+.mdc-dialog__content,
+.mat-mdc-form-field,
+.mat-mdc-button,
+.mat-mdc-dialog-container,
+.mdc-dialog__title,
+.mdc-list-item__primary-text,
+.mat-mdc-option,
+.mat-mdc-select-value,
+.mat-mdc-select-value-text,
+.mat-mdc-select-min-line,
+.mat-mdc-select,
+.mat-mdc-form-field-error,
+.mat-mdc-tab-ripple,
+.mat-mdc-tab.mdc-tab,
+.mat-mdc-tab,
+.mat-tab,
+.mdc-tab__content,
+.mat-mdc-tab-labels,
+mat-label,
+mat-tab {
+    font-family: "Dana", sans-serif !important;
+    font-size: small;
+}
+
+.mat-mdc-tab-labels,
+.mat-mdc-tab.mdc-tab,
+.mat-mdc-tab,
+.mat-tab {
+    color: #000 !important;
+    /* font-size: 18px !important; */
+    white-space: nowrap !important;
+    /* font-weight: 600 !important; */
+    font-family: "Dana", sans-serif !important;
+
+}
+
+.mat-mdc-row,
+.mat-mdc-header-row,
+.mat-mdc-paginator {
+    font-family: "Dana", sans-serif !important;
+}
+
+
+.mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs>.mat-mdc-tab-header .mat-mdc-tab {
+    font-family: "Dana", sans-serif !important;
+}
+
+.h5{
+    font-family: "Dana", sans-serif !important;
+}
+
+@font-face {
+    font-family: Dana;
+    font-style: normal;
+    font-weight: normal;
+    src: url("assets/fonts/Dana/dana_regular.eot");
+    src: url("assets/fonts/Dana/dana_regular.eot?#iefix") format("embedded-opentype"), url("assets/fonts/Dana/dana_regular.woff2") format("woff2"), url("assets/fonts/Dana/dana_regular.woff") format("woff"), url("assets/fonts/Dana/dana_regular.ttf") format("truetype");
+}

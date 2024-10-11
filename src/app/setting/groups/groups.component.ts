@@ -30,12 +30,14 @@ import {
   DeleteOutline
 } from '@ant-design/icons-angular/icons';
 import { DeleteConfirmDlgComponent } from 'src/app/delete-confirm-dlg/delete-confirm-dlg.component';
+import { TranslatePipe } from "../../pipes/translate.pipe";
+import { PaginatorLocalizeService } from 'src/app/services/paginator-localize.service';
 
 @Component({
   selector: 'app-groups',
   standalone: true,
   imports: [SharedModule, CardComponent,
-    ReactiveFormsModule, MatTableModule, MatPaginatorModule, NgFor, MatSortModule],
+    ReactiveFormsModule, MatTableModule, MatPaginatorModule, NgFor, MatSortModule, TranslatePipe],
   templateUrl: './groups.component.html',
   styleUrl: './groups.component.scss'
 })
@@ -48,7 +50,7 @@ export default class GroupsComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   public groupForm: FormGroup;
 
-  constructor(public dialog: MatDialog,private formBuilder: FormBuilder, private groupService: GroupService, private iconService: IconService) {
+  constructor(public dialog: MatDialog,private formBuilder: FormBuilder,private paginatorLocalizeServiceService : PaginatorLocalizeService, private groupService: GroupService, private iconService: IconService) {
     this.groupForm = this.formBuilder.group({
       id: ['0'],
       name: ['', Validators.required]
@@ -81,7 +83,7 @@ export default class GroupsComponent implements AfterViewInit {
     this.groupService.get().subscribe((data: Group[]) => {
       this.dataSource = new MatTableDataSource<Group>(data);
       this.dataSource.sort = this.sort;
-      // this.paginatorLocalizeServiceService.localize(this.paginator);
+      this.paginatorLocalizeServiceService.localize(this.paginator);
       this.dataSource.paginator = this.paginator;
     });
   }

@@ -24,6 +24,10 @@ export class SensorTypeService {
   delete(id: number) {
     return this.httpClient.delete(this.apiUrl + "/" + id);
   }
+
+  CountOfSensor(id: number){
+    return this.httpClient.get(this.apiUrl+"/CountOfSensor?id=" + id);
+  }
 }
 
 export interface SensorType {

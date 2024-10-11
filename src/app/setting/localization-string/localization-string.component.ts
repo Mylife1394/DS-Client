@@ -15,16 +15,17 @@ import {
   DeleteOutline
 } from '@ant-design/icons-angular/icons';
 import { SharedModule } from 'src/app/theme/shared/shared.module';
+import { TranslatePipe } from "../../pipes/translate.pipe";
 @Component({
   selector: 'app-localization-string',
   standalone: true,
-  imports: [SharedModule,ReactiveFormsModule, MatTableModule, MatPaginatorModule, NgFor, MatSortModule, CardComponent],
+  imports: [SharedModule, ReactiveFormsModule, MatTableModule, MatPaginatorModule, NgFor, MatSortModule, CardComponent, TranslatePipe],
   templateUrl: './localization-string.component.html',
   styleUrl: './localization-string.component.scss'
 })
 export default class LocalizationStringComponent implements AfterViewInit {
 
-  displayedColumns: string[] = ['id', 'strKey', 'strValue', 'lang', 'action'];
+  displayedColumns: string[] = ['strKey', 'strValue', 'lang', 'action'];
   dataSource!: MatTableDataSource<LocalizationString>;
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;

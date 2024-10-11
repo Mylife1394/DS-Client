@@ -24,11 +24,12 @@ import {
   BgColorsOutline,
   AntDesignOutline
 } from '@ant-design/icons-angular/icons';
+import { TranslatePipe } from "../../../../../pipes/translate.pipe";
 
 @Component({
   selector: 'app-nav-content',
   standalone: true,
-  imports: [SharedModule, CommonModule, RouterModule, NavCollapseComponent, NavGroupComponent, NavItemComponent],
+  imports: [SharedModule, CommonModule, RouterModule, NavCollapseComponent, NavGroupComponent, NavItemComponent, TranslatePipe],
   templateUrl: './nav-content.component.html',
   styleUrls: ['./nav-content.component.scss']
 })

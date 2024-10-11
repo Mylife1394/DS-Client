@@ -175,7 +175,7 @@ export class SensorsComponent implements AfterViewInit {
   deleteGroup(id: number) {
     this.deleteConfirm().subscribe(result => {
       if (result)
-        this.sensorTypeService.delete(id).subscribe({
+        this.sensorService.delete(id).subscribe({
           next: data => {
             let foundSensorIdx = this.dataSource!.data.findIndex((x: { id: number; }) => x.id === id);
             this.deleteMarker(this.dataSource!.data[foundSensorIdx]);
