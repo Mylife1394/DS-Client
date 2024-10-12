@@ -66,3 +66,24 @@
     height: 2px;
     width: 100%;
 }
+/* Define the CSS blip effect */
+.blip-circle {
+    animation: blip 1s infinite; /* 1 second animation, infinite loop */
+    opacity: 0.8;
+  }
+
+  /* Keyframes for the pulsing effect */
+  @keyframes blip {
+    0% {
+      transform: scale(1);      /* Start at original size */
+      opacity: 0.7;             /* Start slightly transparent */
+    }
+    50% {
+      transform: scale(1.5);    /* Grow to 1.5 times the size */
+      opacity: 0.2;             /* More transparent at the peak */
+    }
+    100% {
+      transform: scale(1);      /* Return to original size */
+      opacity: 0.7;             /* Back to starting opacity */
+    }
+  }

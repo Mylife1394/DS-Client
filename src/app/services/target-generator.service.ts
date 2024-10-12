@@ -16,6 +16,10 @@ export class TargetGeneratorService {
   start(){
     return this.httpclient.get(this.apiUrl+"/start");
   }
+
+  stop(){
+    return this.httpclient.get(this.apiUrl+"/stop");
+  }
 }
 
 export interface TargetState{

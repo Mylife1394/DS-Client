@@ -43,9 +43,18 @@ export default class MapComponent implements AfterViewInit, OnInit {
       });
     SignalRService.getConnection().on("sendTarget", (targetState: TargetState) => {
       console.log(targetState);
-      let latlng = L.latLng(targetState.latitude,targetState.longitude);
+      let latlng = L.latLng(targetState.latitude, targetState.longitude);
       this.targetSymbol.get(targetState.targetId).setLatLng(latlng);
-    })
+    });
+    SignalRService.getConnection().on("targetInSensorRange", (targetState: TargetState,sensor:Sensor) => {
+      let sensorLayers = this.markergroup.get(sensor.groupName).getLayers();
+      sensorLayers.forEach(sensorLayer => {
+       // if(sensorLayer.constructor.name == "L.Circle")
+        {
+          sensorLayer.setStyle({className:"blip-circle"});
+        }
+      });
+    });
   }
   ngAfterViewInit(): void {
     this.sensorTypeService.get().subscribe((sensorTypes: SensorType[]) => {
@@ -121,7 +130,7 @@ export default class MapComponent implements AfterViewInit, OnInit {
           targetId: targetId,
           latitude: latlng.lat,
           longitude: latlng.lng,
-          speed: 222.222//~= 800 km/h
+          speed: 2220.222//~= 800 km/h
         };
         sargetStates.push(targetState);
       });
@@ -129,8 +138,8 @@ export default class MapComponent implements AfterViewInit, OnInit {
       self.targetGeneratorService.saveTargetsTrajectory(sargetStates).subscribe(() => {
         editableLayers.addLayer(layer);
         layer.targetId = targetId;
-        let latlng = L.latLng(sargetStates[0].latitude,sargetStates[0].longitude);
-        self.targetSymbol.set(targetId,L.circleMarker(latlng,{radius:5,fillOpacity:1.0}));
+        let latlng = L.latLng(sargetStates[0].latitude, sargetStates[0].longitude);
+        self.targetSymbol.set(targetId, L.circleMarker(latlng, { radius: 5, fillOpacity: 1.0 }));
         self.targetSymbol.get(targetId).addTo(self.map);
       });
     });
@@ -146,9 +155,35 @@ export default class MapComponent implements AfterViewInit, OnInit {
           tooltip: 'Start Simulation'
         }
       },
-
+      initialize: function (map, options) {
+        L.Toolbar2.Action.prototype.initialize.call(this, map, options);
+        this.isToggled = false;  // Track the toggle state (false = off, true = on)
+      },
+      onAdd: function (map) {
+        L.Toolbar2.Action.prototype.onAdd.call(this, map);
+        L.DomEvent.on(this._icon, 'click', this._preventDefault, this);
+      },
       addHooks: function () {
-        self.targetGeneratorService.start().subscribe();
+        this.isToggled = !this.isToggled;
+        if (this.isToggled) {
+          // Change the icon to 'pause' (or any other icon for the toggled state)
+          this.updateIcon('⏹️', 'Stop');
+          self.targetGeneratorService.start().subscribe();
+        } else {
+          // Change the icon back to 'play'
+          this.updateIcon('▶️', 'Play');
+          self.targetGeneratorService.stop().subscribe();
+        }
+
+      },
+      updateIcon: function (newHtml, newTooltip) {
+        this.options.toolbarIcon.html = newHtml;  // Update icon HTML
+        this.options.toolbarIcon.tooltip = newTooltip;  // Update tooltip text
+        //this.prototy
+        //this._button.title = newTooltip;  // Update the tooltip
+      },
+      _preventDefault: function (e) {
+        L.DomEvent.preventDefault(e);
       }
 
     });
@@ -180,7 +215,7 @@ export default class MapComponent implements AfterViewInit, OnInit {
       // iconAnchor: [22, 22],
       // popupAnchor: [-3, -76]
     });
-    let circle = L.circle([sensor.latitude, sensor.longitude], { radius: foundSensorType.range, fillColor: foundSensorType.color, fill: true, color: foundSensorType.color, weight: 1 }).addTo(this.map);
+    let circle = L.circle([sensor.latitude, sensor.longitude], { radius: foundSensorType.range, fillColor: foundSensorType.color, fill: true, color: foundSensorType.color, weight: 1 ,className:"blip-circle"}).addTo(this.map);
     let marker = L.marker([sensor.latitude, sensor.longitude], { icon: markerIcon });
     circle.id = sensor.id;
     marker.id = sensor.id;
