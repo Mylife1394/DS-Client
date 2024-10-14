@@ -16,6 +16,7 @@ import { TranslatePipe } from 'src/app/pipes/translate.pipe';
 import { TargetGeneratorService, TargetState } from 'src/app/services/target-generator.service';
 import { v4 as uuidv4 } from 'uuid';
 import { SignalRService } from 'src/app/services/signal-r.service';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-map',
@@ -29,6 +30,8 @@ export default class MapComponent implements AfterViewInit, OnInit {
   public map!: L.Map;
   public markergroup: Map<string, L.FeatureGroup> = new Map;
   public targetSymbol: Map<uuidv4, L.circleMarker> = new Map;
+  public intervalToBlip: Map<L.circle, any> = new Map;
+  public targetsInSensor: Map<number, uuidv4[]> = new Map;
   public countOfSensor: Map<number, number> = new Map;
   // constructor
   constructor(private iconService: IconService, private sensorTypeService: SensorTypeService,
@@ -46,12 +49,41 @@ export default class MapComponent implements AfterViewInit, OnInit {
       let latlng = L.latLng(targetState.latitude, targetState.longitude);
       this.targetSymbol.get(targetState.targetId).setLatLng(latlng);
     });
-    SignalRService.getConnection().on("targetInSensorRange", (targetState: TargetState,sensor:Sensor) => {
+    SignalRService.getConnection().on("targetInSensorRange", (targetState: TargetState, sensor: Sensor) => {
       let sensorLayers = this.markergroup.get(sensor.groupName).getLayers();
       sensorLayers.forEach(sensorLayer => {
-       // if(sensorLayer.constructor.name == "L.Circle")
-        {
-          sensorLayer.setStyle({className:"blip-circle"});
+        if (sensorLayer.type == "circle") {
+          if (sensorLayer.id == sensor.id)
+            if (!this.intervalToBlip.has(sensorLayer)) {
+              // Use setInterval to create the blinking effect (500 ms interval)
+              this.intervalToBlip.set(sensorLayer, setInterval((circle: L.circle, color: any, fillColor: any, fillOpacity: any) => { this.toggleBlip(circle, color, fillColor, fillOpacity) }, 500, sensorLayer, sensor.sensorType.color, sensor.sensorType.color, 0.2));  // Blip every 500 milliseconds
+              if (!this.targetsInSensor.has(sensor.id))
+                this.targetsInSensor.set(sensor.id, []);
+              this.targetsInSensor.get(sensor.id).push(targetState.targetId);
+            }
+        }
+      });
+
+    });
+    SignalRService.getConnection().on("targetOutOfSensorRange", (targetState: TargetState, sensor: Sensor) => {
+      let sensorLayers = this.markergroup.get(sensor.groupName).getLayers();
+      sensorLayers.forEach(sensorLayer => {
+        if (sensorLayer.type == "circle") {
+          if (sensorLayer.id == sensor.id)
+            if (this.intervalToBlip.has(sensorLayer)) {
+              let foundTargetId = this.targetsInSensor.get(sensor.id).findIndex(u => u == targetState.targetId)
+              if (foundTargetId >= 0) {
+                // Use setInterval to create the blinking effect (500 ms interval)
+                clearInterval(this.intervalToBlip.get(sensorLayer));
+                this.intervalToBlip.delete(sensorLayer);
+                sensorLayer.setStyle({
+                  fillOpacity: 0.2,
+                  color: sensor.sensorType.color,
+                  fillColor: sensor.sensorType.color
+                });
+                this.targetsInSensor.get(sensor.id).splice(foundTargetId,1);
+              }
+            }
         }
       });
     });
@@ -130,7 +162,7 @@ export default class MapComponent implements AfterViewInit, OnInit {
           targetId: targetId,
           latitude: latlng.lat,
           longitude: latlng.lng,
-          speed: 2220.222//~= 800 km/h
+          speed: 222.222//~= 800 km/h
         };
         sargetStates.push(targetState);
       });
@@ -215,11 +247,27 @@ export default class MapComponent implements AfterViewInit, OnInit {
       // iconAnchor: [22, 22],
       // popupAnchor: [-3, -76]
     });
-    let circle = L.circle([sensor.latitude, sensor.longitude], { radius: foundSensorType.range, fillColor: foundSensorType.color, fill: true, color: foundSensorType.color, weight: 1 ,className:"blip-circle"}).addTo(this.map);
+    let circle = L.circle([sensor.latitude, sensor.longitude], { radius: foundSensorType.range, fillColor: foundSensorType.color, fill: true, color: foundSensorType.color, weight: 1 });
+
     let marker = L.marker([sensor.latitude, sensor.longitude], { icon: markerIcon });
     circle.id = sensor.id;
+    circle.type = "circle"
     marker.id = sensor.id;
+    marker.type = "marker";
     this.markergroup.get(sensor.groupName).addLayer(marker);
     this.markergroup.get(sensor.groupName).addLayer(circle);
+  }
+
+  toggleBlip(circle: L.circle, color: any, fillColor: any, fillOpacity: any) {
+    var currentOpacity = circle.options.fillOpacity;
+    var newOpacity = (currentOpacity === 0.5) ? 0.2 : 0.5;
+
+    // Update the circle style for the blip effect
+    circle.setStyle({
+      fillOpacity: newOpacity,
+      color: newOpacity === 0.5 ? 'red' : color,  // Toggle color as well for more visual effect
+      fillColor: newOpacity === 0.5 ? '#f03' : fillColor
+    });
+
   }
 }
