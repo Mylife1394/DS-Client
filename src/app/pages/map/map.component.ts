@@ -40,53 +40,55 @@ export default class MapComponent implements AfterViewInit, OnInit {
   }
   ngOnInit(): void {
     this.initializeMap();
-    SignalRService.getConnection().invoke('getConnectionId')
-      .then((connectionId: string) => {
-        console.log("ConnectionId : " + connectionId);
+    SignalRService.startConnection().then(() => {
+      SignalRService.getConnection().invoke('getConnectionId')
+        .then((connectionId: string) => {
+          console.log("ConnectionId : " + connectionId);
+        });
+      SignalRService.getConnection().on("sendTarget", (targetState: TargetState) => {
+        console.log(targetState);
+        let latlng = L.latLng(targetState.latitude, targetState.longitude);
+        this.targetSymbol.get(targetState.targetId).setLatLng(latlng);
       });
-    SignalRService.getConnection().on("sendTarget", (targetState: TargetState) => {
-      console.log(targetState);
-      let latlng = L.latLng(targetState.latitude, targetState.longitude);
-      this.targetSymbol.get(targetState.targetId).setLatLng(latlng);
-    });
-    SignalRService.getConnection().on("targetInSensorRange", (targetState: TargetState, sensor: Sensor) => {
-      let sensorLayers = this.markergroup.get(sensor.groupName).getLayers();
-      sensorLayers.forEach(sensorLayer => {
-        if (sensorLayer.type == "circle") {
-          if (sensorLayer.id == sensor.id)
-            if (!this.intervalToBlip.has(sensorLayer)) {
-              // Use setInterval to create the blinking effect (500 ms interval)
-              this.intervalToBlip.set(sensorLayer, setInterval((circle: L.circle, color: any, fillColor: any, fillOpacity: any) => { this.toggleBlip(circle, color, fillColor, fillOpacity) }, 500, sensorLayer, sensor.sensorType.color, sensor.sensorType.color, 0.2));  // Blip every 500 milliseconds
-              if (!this.targetsInSensor.has(sensor.id))
-                this.targetsInSensor.set(sensor.id, []);
-              this.targetsInSensor.get(sensor.id).push(targetState.targetId);
-            }
-        }
-      });
-
-    });
-    SignalRService.getConnection().on("targetOutOfSensorRange", (targetState: TargetState, sensor: Sensor) => {
-      let sensorLayers = this.markergroup.get(sensor.groupName).getLayers();
-      sensorLayers.forEach(sensorLayer => {
-        if (sensorLayer.type == "circle") {
-          if (sensorLayer.id == sensor.id)
-            if (this.intervalToBlip.has(sensorLayer)) {
-              let foundTargetId = this.targetsInSensor.get(sensor.id).findIndex(u => u == targetState.targetId)
-              if (foundTargetId >= 0) {
+      SignalRService.getConnection().on("targetInSensorRange", (targetState: TargetState, sensor: Sensor) => {
+        let sensorLayers = this.markergroup.get(sensor.groupName).getLayers();
+        sensorLayers.forEach(sensorLayer => {
+          if (sensorLayer.type == "circle") {
+            if (sensorLayer.id == sensor.id)
+              if (!this.intervalToBlip.has(sensorLayer)) {
                 // Use setInterval to create the blinking effect (500 ms interval)
-                clearInterval(this.intervalToBlip.get(sensorLayer));
-                this.intervalToBlip.delete(sensorLayer);
-                sensorLayer.setStyle({
-                  fillOpacity: 0.2,
-                  color: sensor.sensorType.color,
-                  fillColor: sensor.sensorType.color
-                });
-                this.targetsInSensor.get(sensor.id).splice(foundTargetId,1);
+                this.intervalToBlip.set(sensorLayer, setInterval((circle: L.circle, color: any, fillColor: any, fillOpacity: any) => { this.toggleBlip(circle, color, fillColor, fillOpacity) }, 500, sensorLayer, sensor.sensorType.color, sensor.sensorType.color, 0.2));  // Blip every 500 milliseconds
+                if (!this.targetsInSensor.has(sensor.id))
+                  this.targetsInSensor.set(sensor.id, []);
+                this.targetsInSensor.get(sensor.id).push(targetState.targetId);
               }
-            }
-        }
+          }
+        });
+
       });
-    });
+      SignalRService.getConnection().on("targetOutOfSensorRange", (targetState: TargetState, sensor: Sensor) => {
+        let sensorLayers = this.markergroup.get(sensor.groupName).getLayers();
+        sensorLayers.forEach(sensorLayer => {
+          if (sensorLayer.type == "circle") {
+            if (sensorLayer.id == sensor.id)
+              if (this.intervalToBlip.has(sensorLayer)) {
+                let foundTargetId = this.targetsInSensor.get(sensor.id).findIndex(u => u == targetState.targetId)
+                if (foundTargetId >= 0) {
+                  // Use setInterval to create the blinking effect (500 ms interval)
+                  clearInterval(this.intervalToBlip.get(sensorLayer));
+                  this.intervalToBlip.delete(sensorLayer);
+                  sensorLayer.setStyle({
+                    fillOpacity: 0.2,
+                    color: sensor.sensorType.color,
+                    fillColor: sensor.sensorType.color
+                  });
+                  this.targetsInSensor.get(sensor.id).splice(foundTargetId, 1);
+                }
+              }
+          }
+        });
+      });
+    })
   }
   ngAfterViewInit(): void {
     this.sensorTypeService.get().subscribe((sensorTypes: SensorType[]) => {
@@ -96,8 +98,9 @@ export default class MapComponent implements AfterViewInit, OnInit {
           this.countOfSensor.set(sensorType.id, value);
         });
       });
+      this.loadSensors();
     });
-    this.loadSensors();
+
     this.centerMap();
     this.createLineTools();
     this.createPlayTools();

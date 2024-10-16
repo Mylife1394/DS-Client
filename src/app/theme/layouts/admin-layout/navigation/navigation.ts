@@ -77,6 +77,15 @@ export const NavigationItems: NavigationItem[] = [
         url: '/dashboard/default',
         icon: 'map',
         breadcrumbs: false
+      },
+      {
+        id: 'default',
+        title: 'Sensor Log',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/dashboard/sensor-log',
+        icon: 'dashboard',
+        breadcrumbs: false
       }
     ]
   }

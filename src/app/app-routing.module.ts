@@ -21,6 +21,10 @@ const routes: Routes = [
         loadComponent: () => import('./pages/map/map.component').then((c) => c.default)
       },
       {
+        path: 'dashboard/sensor-log',
+        loadComponent: () => import('./pages/sensor-log/sensor-log.component')
+      },
+      {
         path: 'setting/groups',
         loadComponent: () => import('./setting/groups/groups.component')
       },

@@ -1,0 +1,79 @@
+.card {
+    .card-body.dashboard-card {
+        padding: 18px;
+        padding-bottom: 20px;
+    }
+}
+
+.user-group {
+    img {
+        position: relative;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        z-index: 2;
+        transition: all 0.1s ease-in-out;
+        border: 2px solid var(--bs-white);
+
+        +img {
+            margin-left: -14px;
+        }
+
+        &:hover {
+            z-index: 5;
+        }
+    }
+}
+
+.badge-circle {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.color-field_cell {
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.icon-frame {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    margin-left: 5px !important;
+}
+
+.sensor-info {
+    display: inline;
+}
+
+.sensor-header {
+    padding: 0 5px 0 5px;
+    border-radius: 4px;
+    height: 2px;
+    width: 100%;
+}
+/* Define the CSS blip effect */
+.blip-circle {
+    animation: blip 1s infinite; /* 1 second animation, infinite loop */
+    opacity: 0.8;
+  }
+
+  /* Keyframes for the pulsing effect */
+  @keyframes blip {
+    0% {
+      transform: scale(1);      /* Start at original size */
+      opacity: 0.7;             /* Start slightly transparent */
+    }
+    50% {
+      transform: scale(1.5);    /* Grow to 1.5 times the size */
+      opacity: 0.2;             /* More transparent at the peak */
+    }
+    100% {
+      transform: scale(1);      /* Return to original size */
+      opacity: 0.7;             /* Back to starting opacity */
+    }
+  }
