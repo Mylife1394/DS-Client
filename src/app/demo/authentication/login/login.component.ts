@@ -1,28 +1,53 @@
 // angular import
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule,ReactiveFormsModule  ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
 export default class LoginComponent {
-  // public method
-  SignInOptions = [
-    {
-      image: 'assets/images/authentication/google.svg',
-      name: 'Google'
-    },
-    {
-      image: 'assets/images/authentication/twitter.svg',
-      name: 'Twitter'
-    },
-    {
-      image: 'assets/images/authentication/facebook.svg',
-      name: 'Facebook'
+  public loginForm: FormGroup;
+  authService = inject(AuthService);
+  router = inject(Router);
+  userIsnotActive = false;
+  userorpassInvalid = false;
+  constructor(private formBuilder: FormBuilder){
+    this.loginForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+  }
+
+  login() {
+    if (this.loginForm.valid) {
+      console.log(this.loginForm.value);
+      this.authService.login(this.loginForm.value)
+        .subscribe({
+          next: (data: any) => {
+            if (this.authService.isLoggedIn()) {
+              this.router.navigate(['']);
+            }
+            console.log(data);
+          },
+          error: error => {
+            if (error.status == 404) {
+              console.log("نام کاربری یا کلمه عبور اشتباه است.");
+              this.userorpassInvalid = true;
+            }
+            else {
+              this.userIsnotActive = true;
+              console.log(error);
+            }
+          }
+        });
     }
-  ];
+  }
+  // public method
+
 }

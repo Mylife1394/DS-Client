@@ -12,6 +12,9 @@ export class GroupService {
   get() {
     return this.httpClient.get(this.apiUrl);
   }
+  getGroupById(id){
+    return this.httpClient.get(this.apiUrl+"/" + id);
+  }
 
   post(group: Group) {
     return this.httpClient.post(this.apiUrl, group);

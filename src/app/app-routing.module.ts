@@ -5,6 +5,8 @@ import { RouterModule, Routes } from '@angular/router';
 // Project import
 import { AdminComponent } from './theme/layouts/admin-layout/admin-layout.component';
 import { GuestComponent } from './theme/layouts/guest/guest.component';
+import { authGuard } from './auth/auth.guard';
+import LoginComponent from './demo/authentication/login/login.component';
 
 const routes: Routes = [
   {
@@ -18,35 +20,43 @@ const routes: Routes = [
       },
       {
         path: 'dashboard/default',
-        loadComponent: () => import('./pages/map/map.component').then((c) => c.default)
+        loadComponent: () => import('./pages/map/map.component').then((c) => c.default),
+        canActivate: [authGuard]
       },
       {
         path: 'dashboard/sensor-log',
-        loadComponent: () => import('./pages/sensor-log/sensor-log.component')
+        loadComponent: () => import('./pages/sensor-log/sensor-log.component'),
+        canActivate: [authGuard]
       },
       {
         path: 'setting/groups',
-        loadComponent: () => import('./setting/groups/groups.component')
+        loadComponent: () => import('./setting/groups/groups.component'),
+        canActivate: [authGuard]
       },
       {
         path: 'setting/users',
-        loadComponent: () => import('./setting/users/users.component')
+        loadComponent: () => import('./setting/users/users.component'),
+        canActivate: [authGuard]
       },
       {
         path: 'setting/sensorTypes',
-        loadComponent: () => import('./setting/sensor-type/sensor-type.component')
+        loadComponent: () => import('./setting/sensor-type/sensor-type.component'),
+        canActivate: [authGuard]
       },
       {
         path: 'setting/localizationString',
-        loadComponent: () => import('./setting/localization-string/localization-string.component')
+        loadComponent: () => import('./setting/localization-string/localization-string.component'),
+        canActivate: [authGuard]
       },
       {
         path: 'color',
-        loadComponent: () => import('./demo/ui-component/ui-color/ui-color.component')
+        loadComponent: () => import('./demo/ui-component/ui-color/ui-color.component'),
+        canActivate: [authGuard]
       },
       {
         path: 'sample-page',
-        loadComponent: () => import('./demo/other/sample-page/sample-page.component')
+        loadComponent: () => import('./demo/other/sample-page/sample-page.component'),
+        canActivate: [authGuard]
       }
     ]
   },
@@ -70,4 +80,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
