@@ -80,7 +80,7 @@ export const NavigationItems: NavigationItem[] = [
       },
       {
         id: 'default',
-        title: 'Sensor Log',
+        title: 'SensorLog',
         type: 'item',
         classes: 'nav-item',
         url: '/dashboard/sensor-log',

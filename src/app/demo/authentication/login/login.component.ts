@@ -3,11 +3,12 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
+import { TranslatePipe } from "../../../pipes/translate.pipe";
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterModule,ReactiveFormsModule  ],
+  imports: [RouterModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
