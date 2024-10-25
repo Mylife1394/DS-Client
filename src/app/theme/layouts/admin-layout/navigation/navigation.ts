@@ -31,7 +31,7 @@ export const NavigationItems: NavigationItem[] = [
     type: 'group',
     icon: 'setting-outlined',
     hidden:true,
-    permitGroups:['admin'],
+    permitGroups:['مدیر سیستم'],
     children: [
       {
         id: 'users',

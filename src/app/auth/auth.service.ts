@@ -50,4 +50,9 @@ export class AuthService {
     let result = JSON.parse(this.storageService.getItem('authGroup')!);
     return result.name;
   }
+
+  getCurrentUser(){
+    let result = JSON.parse(this.storageService.getItem('authUser')!);
+    return result;
+  }
 }

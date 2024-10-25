@@ -106,9 +106,12 @@ export default class AddSensorComponent implements AfterViewInit, OnInit {
     this.createPlayTools();
   }
 
-  private initializeMap() {
-    const baseMapURl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-    this.map = L.map('add-sensor-map', {
+// 'file:///C:\\Users\\faradid\\Desktop\\geoproject\\offline_tiles_iran_last\\{z}\\{z}_{x}_{y}.png'//
+// 'http://localhost/map2/{z}/{x}/{y}.png'//
+//'http://localhost/map/{z}/{z}_{x}_{y}.png'//
+private initializeMap() {
+  const baseMapURl = 'http://localhost/map/{z}/{z}_{x}_{y}.png'//'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+  this.map = L.map('add-sensor-map', {
       center: [32.505, 54],
       zoom: 7
     });

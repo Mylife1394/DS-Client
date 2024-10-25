@@ -1,5 +1,5 @@
 // angular import
-import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
 // project import
@@ -29,6 +29,7 @@ import {
   GithubOutline
 } from '@ant-design/icons-angular/icons';
 import { AuthService } from 'src/app/auth/auth.service';
+import { User } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-nav-right',
@@ -37,14 +38,14 @@ import { AuthService } from 'src/app/auth/auth.service';
   templateUrl: './nav-right.component.html',
   styleUrls: ['./nav-right.component.scss']
 })
-export class NavRightComponent {
+export class NavRightComponent implements OnInit {
 
   @Input() styleSelectorToggle!: boolean;
   @Output() Customize = new EventEmitter();
   windowWidth: number;
   screenFull: boolean = true;
   router  =  inject(Router);
-  
+  currentUser :User;
   constructor(private iconService: IconService,private authService:AuthService) {
     this.windowWidth = window.innerWidth;
     this.iconService.addIcon(
@@ -68,6 +69,9 @@ export class NavRightComponent {
         WalletOutline
       ]
     );
+  }
+  ngOnInit(): void {
+    this.currentUser = this.getCurrentUser();
   }
 
   profile = [
@@ -115,5 +119,9 @@ export class NavRightComponent {
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
+  }
+
+  getCurrentUser(){
+    return this.authService.getCurrentUser();
   }
 }
