@@ -78,16 +78,22 @@
     height: 100%;
     transition: all 0.3s ease-in-out;
 
-    ~ app-nav-bar .pc-header {
+    ~ app-nav-bar .pc-header:dir(ltr) {
       left: 0px;
+    }
+    ~ app-nav-bar .pc-header:dir(rtl) {
+      right: 0px;
     }
 
     ~ .pc-footer {
       margin-left: 20px;
     }
 
-    ~ .pc-container {
+    ~ .pc-container:dir(ltr) {
       margin-left: 0px;
+    }
+    ~ .pc-container:dir(rtl) {
+      margin-right: 0px;
     }
 
     .navbar-wrapper {

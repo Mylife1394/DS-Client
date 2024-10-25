@@ -38,10 +38,16 @@ export class AuthService {
 
   logout() {
     this.storageService.removeItem('authUser');
+    this.storageService.removeItem('authGroup');
   }
 
   isLoggedIn() {
     let result = JSON.parse(this.storageService.getItem('authUser')!);
     return result !== null;//
+  }
+
+  getCurrentGroupName() {
+    let result = JSON.parse(this.storageService.getItem('authGroup')!);
+    return result.name;
   }
 }

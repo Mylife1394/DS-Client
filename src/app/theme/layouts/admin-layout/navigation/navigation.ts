@@ -1,3 +1,9 @@
+import { inject } from "@angular/core";
+import { authGuard } from "src/app/auth/auth.guard";
+import { AuthService } from "src/app/auth/auth.service";
+import { CustomlocalstorageService } from "src/app/services/customlocalstorage.service";
+import { GroupService } from "src/app/services/group.service";
+
 export interface NavigationItem {
   id: string;
   title: string;
@@ -16,14 +22,16 @@ export interface NavigationItem {
   link?: string;
   description?: string;
   path?: string;
+  permitGroups?:string[];
 }
-
 export const NavigationItems: NavigationItem[] = [
   {
     id: 'setting',
     title: 'Setting',
     type: 'group',
     icon: 'setting-outlined',
+    hidden:true,
+    permitGroups:['admin'],
     children: [
       {
         id: 'users',
@@ -50,6 +58,15 @@ export const NavigationItems: NavigationItem[] = [
         classes: 'nav-item',
         url: '/setting/sensorTypes',
         icon: 'group',
+        breadcrumbs: false
+      },
+      {
+        id: 'default',
+        title: 'Add Sensor',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/setting/addSensor',
+        icon: 'map',
         breadcrumbs: false
       },
       {

@@ -1,6 +1,6 @@
 // angular import
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 
 // project import
 import { SharedModule } from 'src/app/theme/shared/shared.module';
@@ -28,6 +28,7 @@ import {
   ArrowRightOutline,
   GithubOutline
 } from '@ant-design/icons-angular/icons';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-nav-right',
@@ -37,12 +38,14 @@ import {
   styleUrls: ['./nav-right.component.scss']
 })
 export class NavRightComponent {
+
   @Input() styleSelectorToggle!: boolean;
   @Output() Customize = new EventEmitter();
   windowWidth: number;
   screenFull: boolean = true;
-
-  constructor(private iconService: IconService) {
+  router  =  inject(Router);
+  
+  constructor(private iconService: IconService,private authService:AuthService) {
     this.windowWidth = window.innerWidth;
     this.iconService.addIcon(
       ...[
@@ -108,4 +111,9 @@ export class NavRightComponent {
       title: 'History'
     }
   ];
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
 }

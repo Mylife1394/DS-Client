@@ -220,9 +220,13 @@
     transform: none !important;
     top: 100% !important;
 
-    &.dropdown-menu-end {
+    &.dropdown-menu-end:dir(ltr) {
       right: 0 !important;
       left: auto !important;
+    }
+    &.dropdown-menu-end:dir(rtl) {
+      left: 0 !important;
+      right: auto !important;
     }
   }
 

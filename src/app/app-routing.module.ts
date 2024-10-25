@@ -44,6 +44,11 @@ const routes: Routes = [
         canActivate: [authGuard]
       },
       {
+        path: 'setting/addSensor',
+        loadComponent: () => import('./setting/add-sensor/add-sensor.component'),
+        canActivate: [authGuard]
+      },
+      {
         path: 'setting/localizationString',
         loadComponent: () => import('./setting/localization-string/localization-string.component'),
         canActivate: [authGuard]

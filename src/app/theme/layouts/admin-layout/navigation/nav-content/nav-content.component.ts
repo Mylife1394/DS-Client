@@ -25,6 +25,7 @@ import {
   AntDesignOutline
 } from '@ant-design/icons-angular/icons';
 import { TranslatePipe } from "../../../../../pipes/translate.pipe";
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-nav-content',
@@ -50,7 +51,8 @@ export class NavContentComponent implements OnInit {
   constructor(
     private location: Location,
     private locationStrategy: LocationStrategy,
-    private iconService: IconService
+    private iconService: IconService,
+    private authService: AuthService
   ) {
     this.iconService.addIcon(
       ...[
@@ -104,5 +106,9 @@ export class NavContentComponent implements OnInit {
     if (this.windowWidth < 1025 && document.querySelector('app-navigation.coded-navbar').classList.contains('mob-open')) {
       this.NavCollapsedMob.emit();
     }
+  }
+
+  getCurrentUserGroup(){
+    return this.authService.getCurrentGroupName();
   }
 }
