@@ -104,8 +104,11 @@ export default class MapComponent implements AfterViewInit, OnInit {
     });
 
     this.centerMap();
-    // this.createLineTools();
-    // this.createPlayTools();
+    let currentGroupName = this.authService.getCurrentGroupName()
+    if (currentGroupName == "مدیر سیستم") {
+      this.createLineTools();
+      this.createPlayTools();
+    }
   }
 
   // 'file:///C:\\Users\\faradid\\Desktop\\geoproject\\offline_tiles_iran_last\\{z}\\{z}_{x}_{y}.png'//
@@ -115,7 +118,7 @@ export default class MapComponent implements AfterViewInit, OnInit {
     const baseMapURl = 'http://localhost/map/{z}/{z}_{x}_{y}.png'//'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
     this.map = L.map('map', {
       center: [32.505, 54],
-      zoom: 7
+      zoom: 12
     });
     L.tileLayer(baseMapURl).addTo(this.map);
   }
@@ -260,7 +263,7 @@ export default class MapComponent implements AfterViewInit, OnInit {
     let circle = L.circle([sensor.latitude, sensor.longitude], { radius: foundSensorType.range, fillColor: foundSensorType.color, fill: true, color: foundSensorType.color, weight: 1 });
 
     let marker = L.marker([sensor.latitude, sensor.longitude], { icon: markerIcon });
-    marker.bindTooltip(sensor.name,{direction:"top"}).openTooltip();
+    marker.bindTooltip(sensor.name, { direction: "top" }).openTooltip();
     circle.id = sensor.id;
     circle.type = "circle"
     marker.id = sensor.id;

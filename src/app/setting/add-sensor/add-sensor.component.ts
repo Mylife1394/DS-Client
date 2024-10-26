@@ -113,7 +113,7 @@ private initializeMap() {
   const baseMapURl = 'http://localhost/map/{z}/{z}_{x}_{y}.png'//'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
   this.map = L.map('add-sensor-map', {
       center: [32.505, 54],
-      zoom: 7
+      zoom: 12
     });
     L.tileLayer(baseMapURl).addTo(this.map);
   }

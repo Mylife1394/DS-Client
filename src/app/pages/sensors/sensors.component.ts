@@ -103,8 +103,8 @@ export class SensorsComponent implements AfterViewInit {
     this.map.on('click', function (ev) {
       if(self.sensorForm.controls["selectbyMouse"].value == true)
       {
-        self.sensorForm.controls["latitude"].setValue(ev.latlng.lat.toFixed(2));
-        self.sensorForm.controls["longitude"].setValue(ev.latlng.lng.toFixed(2));
+        self.sensorForm.controls["latitude"].setValue(ev.latlng.lat.toFixed(4));
+        self.sensorForm.controls["longitude"].setValue(ev.latlng.lng.toFixed(4));
       }
     });
   }
