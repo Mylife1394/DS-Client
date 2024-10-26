@@ -51,7 +51,7 @@ export default class AddSensorComponent implements AfterViewInit, OnInit {
         this.targetSymbol.get(targetState.targetId).setLatLng(latlng);
       });
       SignalRService.getConnection().on("targetInSensorRange", (targetState: TargetState, sensor: Sensor) => {
-        let sensorLayers = this.markergroup.get(sensor.groupName).getLayers();
+        let sensorLayers = this.markergroup.get("sensor-group").getLayers();
         sensorLayers.forEach(sensorLayer => {
           if (sensorLayer.type == "circle") {
             if (sensorLayer.id == sensor.id)
@@ -67,7 +67,7 @@ export default class AddSensorComponent implements AfterViewInit, OnInit {
 
       });
       SignalRService.getConnection().on("targetOutOfSensorRange", (targetState: TargetState, sensor: Sensor) => {
-        let sensorLayers = this.markergroup.get(sensor.groupName).getLayers();
+        let sensorLayers = this.markergroup.get("sensor-group").getLayers();
         sensorLayers.forEach(sensorLayer => {
           if (sensorLayer.type == "circle") {
             if (sensorLayer.id == sensor.id)
@@ -240,10 +240,10 @@ private initializeMap() {
   }
 
   private addMarkers(sensor: Sensor) {
-    if (!this.markergroup.has(sensor.groupName)) {
+    if (!this.markergroup.has("sensor-group")) {
       let fg = L.featureGroup();
       fg.addTo(this.map);
-      this.markergroup.set(sensor.groupName, fg);
+      this.markergroup.set("sensor-group", fg);
     }
     // Add your markers to the map
     let foundSensorType = this.sensorTypes.find((x: { id: any; }) => x.id === Number(sensor.sensorType_id));
@@ -260,8 +260,8 @@ private initializeMap() {
     circle.type = "circle"
     marker.id = sensor.id;
     marker.type = "marker";
-    this.markergroup.get(sensor.groupName).addLayer(marker);
-    this.markergroup.get(sensor.groupName).addLayer(circle);
+    this.markergroup.get("sensor-group").addLayer(marker);
+    this.markergroup.get("sensor-group").addLayer(circle);
   }
 
   toggleBlip(circle: L.circle, color: any, fillColor: any, fillOpacity: any) {

@@ -17,6 +17,7 @@ import { TargetGeneratorService, TargetState } from 'src/app/services/target-gen
 import { v4 as uuidv4 } from 'uuid';
 import { SignalRService } from 'src/app/services/signal-r.service';
 import { interval } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-map',
@@ -35,7 +36,8 @@ export default class MapComponent implements AfterViewInit, OnInit {
   public countOfSensor: Map<number, number> = new Map;
   // constructor
   constructor(private iconService: IconService, private sensorTypeService: SensorTypeService,
-    private sensorService: SensorService, private targetGeneratorService: TargetGeneratorService) {
+    private sensorService: SensorService, private targetGeneratorService: TargetGeneratorService,
+    private authService: AuthService) {
     this.iconService.addIcon(...[RiseOutline, FallOutline, SettingOutline, GiftOutline, MessageOutline]);
   }
   ngOnInit(): void {
@@ -51,7 +53,7 @@ export default class MapComponent implements AfterViewInit, OnInit {
         this.targetSymbol.get(targetState.targetId).setLatLng(latlng);
       });
       SignalRService.getConnection().on("targetInSensorRange", (targetState: TargetState, sensor: Sensor) => {
-        let sensorLayers = this.markergroup.get(sensor.groupName).getLayers();
+        let sensorLayers = this.markergroup.get("sensor-group").getLayers();
         sensorLayers.forEach(sensorLayer => {
           if (sensorLayer.type == "circle") {
             if (sensorLayer.id == sensor.id)
@@ -67,7 +69,7 @@ export default class MapComponent implements AfterViewInit, OnInit {
 
       });
       SignalRService.getConnection().on("targetOutOfSensorRange", (targetState: TargetState, sensor: Sensor) => {
-        let sensorLayers = this.markergroup.get(sensor.groupName).getLayers();
+        let sensorLayers = this.markergroup.get("sensor-group").getLayers();
         sensorLayers.forEach(sensorLayer => {
           if (sensorLayer.type == "circle") {
             if (sensorLayer.id == sensor.id)
@@ -107,11 +109,11 @@ export default class MapComponent implements AfterViewInit, OnInit {
   }
 
   // 'file:///C:\\Users\\faradid\\Desktop\\geoproject\\offline_tiles_iran_last\\{z}\\{z}_{x}_{y}.png'//
-// 'http://localhost/map2/{z}/{x}/{y}.png'//
-//'http://localhost/map/{z}/{z}_{x}_{y}.png'//
-private initializeMap() {
-  const baseMapURl = 'http://localhost/map/{z}/{z}_{x}_{y}.png'//'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-  this.map = L.map('map', {
+  // 'http://localhost/map2/{z}/{x}/{y}.png'//
+  //'http://localhost/map/{z}/{z}_{x}_{y}.png'//
+  private initializeMap() {
+    const baseMapURl = 'http://localhost/map/{z}/{z}_{x}_{y}.png'//'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+    this.map = L.map('map', {
       center: [32.505, 54],
       zoom: 7
     });
@@ -234,16 +236,18 @@ private initializeMap() {
   private loadSensors() {
     this.sensorService.get().subscribe((sensors: Sensor[]) => {
       sensors.forEach(sensor => {
-        this.addMarkers(sensor);
+        let currentGroupName = this.authService.getCurrentGroupName()
+        if ((currentGroupName == "مدیر سیستم") || sensor.showForUser)
+          this.addMarkers(sensor);
       });
     })
   }
 
   private addMarkers(sensor: Sensor) {
-    if (!this.markergroup.has(sensor.groupName)) {
+    if (!this.markergroup.has("sensor-group")) {
       let fg = L.featureGroup();
       fg.addTo(this.map);
-      this.markergroup.set(sensor.groupName, fg);
+      this.markergroup.set("sensor-group", fg);
     }
     // Add your markers to the map
     let foundSensorType = this.sensorTypes.find((x: { id: any; }) => x.id === Number(sensor.sensorType_id));
@@ -256,12 +260,13 @@ private initializeMap() {
     let circle = L.circle([sensor.latitude, sensor.longitude], { radius: foundSensorType.range, fillColor: foundSensorType.color, fill: true, color: foundSensorType.color, weight: 1 });
 
     let marker = L.marker([sensor.latitude, sensor.longitude], { icon: markerIcon });
+    marker.bindTooltip(sensor.name,{direction:"top"}).openTooltip();
     circle.id = sensor.id;
     circle.type = "circle"
     marker.id = sensor.id;
     marker.type = "marker";
-    this.markergroup.get(sensor.groupName).addLayer(marker);
-    this.markergroup.get(sensor.groupName).addLayer(circle);
+    this.markergroup.get("sensor-group").addLayer(marker);
+    this.markergroup.get("sensor-group").addLayer(circle);
   }
 
   toggleBlip(circle: L.circle, color: any, fillColor: any, fillOpacity: any) {

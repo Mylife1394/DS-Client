@@ -32,7 +32,7 @@ export interface Sensor {
   name: string,
   latitude: number,
   longitude: number,
-  groupName: string,
+  showForUser: boolean,
   sensorType_id:number
   sensorType:SensorType | undefined
 }

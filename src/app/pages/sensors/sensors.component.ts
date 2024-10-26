@@ -61,7 +61,7 @@ export class SensorsComponent implements AfterViewInit {
       name: ['', Validators.required],
       latitude: ['', Validators.required],
       longitude: ['', Validators.required],
-      groupName: ['', Validators.required],
+      showForUser: [true, Validators.required],
       sensorType_id: [0, Validators.required],
       selectbyMouse: [false]
     });
@@ -119,7 +119,7 @@ export class SensorsComponent implements AfterViewInit {
       name: form.value.name,
       latitude: form.value.latitude,
       longitude: form.value.longitude,
-      groupName: form.value.groupName,
+      showForUser: form.value.showForUser,
       sensorType_id: Number(form.value.sensorType_id),
       sensorType: undefined
     }
@@ -130,7 +130,7 @@ export class SensorsComponent implements AfterViewInit {
         foundSensor!.name = sensor.name;
         foundSensor!.latitude = sensor.latitude;
         foundSensor!.longitude = sensor.longitude;
-        foundSensor!.groupName = sensor.groupName;
+        foundSensor!.showForUser = sensor.showForUser;
         foundSensor!.sensorType_id = sensor.sensorType_id;
         this.dataSource!._updateChangeSubscription();
       });
@@ -146,10 +146,10 @@ export class SensorsComponent implements AfterViewInit {
   }
 
   private addMarkers(sensor: Sensor) {
-    if (!this.markergroup.has(sensor.groupName)) {
+    if (!this.markergroup.has("sensor-group")) {
       let fg = L.featureGroup();
       fg.addTo(this.map);
-      this.markergroup.set(sensor.groupName, fg);
+      this.markergroup.set("sensor-group", fg);
     }
     // Add your markers to the map
     let foundSensorType = this.sensorTypes.find((x: { id: any; }) => x.id === Number(sensor.sensorType_id));
@@ -163,8 +163,8 @@ export class SensorsComponent implements AfterViewInit {
     let marker = L.marker([sensor.latitude,sensor.longitude], { icon: markerIcon });
     circle.id = sensor.id;
     marker.id = sensor.id;
-    this.markergroup.get(sensor.groupName).addLayer(marker);
-    this.markergroup.get(sensor.groupName).addLayer(circle);
+    this.markergroup.get("sensor-group").addLayer(marker);
+    this.markergroup.get("sensor-group").addLayer(circle);
   }
 
   deleteConfirm() {
@@ -195,23 +195,23 @@ export class SensorsComponent implements AfterViewInit {
     this.sensorForm.controls["name"].setValue(sensor.name);
     this.sensorForm.controls["latitude"].setValue(sensor.latitude);
     this.sensorForm.controls["longitude"].setValue(sensor.longitude);
-    this.sensorForm.controls["groupName"].setValue(sensor.groupName);
+    this.sensorForm.controls["showForUser"].setValue(sensor.showForUser);
     this.sensorForm.controls["sensorType_id"].setValue(sensor.sensorType_id);
   }
 
   private deleteMarker(sensor: Sensor) {
-    if (this.markergroup.has(sensor.groupName)) {
-      let layers = this.markergroup.get(sensor.groupName).getLayers();
+    if (this.markergroup.has("sensor-group")) {
+      let layers = this.markergroup.get("sensor-group").getLayers();
       layers.forEach(layer => {
         if (layer.id == sensor.id) {
-          this.markergroup.get(sensor.groupName).removeLayer(layer);
+          this.markergroup.get("sensor-group").removeLayer(layer);
           layer.remove();
         }
       });
-      layers = this.markergroup.get(sensor.groupName).getLayers();
+      layers = this.markergroup.get("sensor-group").getLayers();
       if (layers.lenght == 0) {
-        this.markergroup.get(sensor.groupName).remove();
-        this.markergroup.delete(sensor.groupName);
+        this.markergroup.get("sensor-group").remove();
+        this.markergroup.delete("sensor-group");
       }
     }
   }
